@@ -5,8 +5,9 @@ from bs4 import BeautifulSoup
 from phoneComment import phoneComment
 import re
 class mobliePhone:
-    def __init__(self,phoneUrl):
+    def __init__(self,phoneUrl,page):
         self.phoneUrl=phoneUrl
+        self.page=page
 
     def ok(self):
         print('ok')
@@ -38,7 +39,7 @@ class mobliePhone:
         soup = BeautifulSoup(file.read(),"html.parser")
         a=soup.find('div',id='plist').find_all('div',class_='p-name')
         count=0
-        file2=open('one.txt','a')
+        file2=open("page/"+str(self.page)+'.txt','a')
         for phoneName in a:
             count=count+1
             name=phoneName.find('em').string
