@@ -45,23 +45,33 @@ class mobliePhone:
             name=phoneName.find('em').string
             #print("手机名字:"+name.strip())
             href=phoneName.a['href']
-            file2.write("第"+str(count)+"部手机："+name.strip())
+            try:
+                if name!=None:
+                    file2.write("第"+str(count)+"部手机："+name.strip())
+                else:
+                    a = re.findall("</span>(.*?)</em>", str(phoneName.find('em')).replace(' ', "").replace("\n", ""));
+                    file2.write("第" + str(count) + "部手机：" + a[0])
+            except:
+                print("报错啦！！！")
             file2.write("\n")
             file2.write("\n")
             print(href)
             comm=phoneComment(href)
             comments=comm.printComment()
             commentNum=0;
-            for comment in comments:
-                commentNum=commentNum+1;
-                comm="第"+str(commentNum)+"条评论："+comment.string
-                try:
-                    file2.write(str(comm.strip()))
-                except:
-                    file2.write("第"+str(commentNum)+"条评论："+"数据出错")
-                file2.write("\n")
-                print(comm)
-                print("")
+            if comments==None:
+                file2.write("此页面的评论暂时为空或者无法取得！"+"https:"+href)
+            else:
+                for comment in comments:
+                    commentNum=commentNum+1;
+                    comm="第"+str(commentNum)+"条评论："+comment.string
+                    try:
+                        file2.write(str(comm.strip()))
+                    except:
+                        file2.write("第"+str(commentNum)+"条评论："+"数据出错")
+                    file2.write("\n")
+                    print(comm)
+                    print("")
             file2.flush()
             file2.write("\n")
             file2.write("\n")

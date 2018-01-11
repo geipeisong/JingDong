@@ -15,28 +15,24 @@ class phoneComment:
         except Exception:
             print('url报错'+"https:"+url)
             print(Exception)
-            return "url报错";
+            return None
     def printComment(self):
         htmlContent=phoneComment.Comment(self.commentUrl)
-        file=open('comment.html','w',encoding='gbk')
-        file.write(htmlContent.decode('gbk','ignore'))
-        file.flush()
-        file.close()
-        file=open('comment.html','r',encoding='gbk')
-        soup=BeautifulSoup(file.read(),'html.parser')
-        comments=soup.find('div',id='hidcomment').find_all('div',class_='comment-content')
-        #count=0
-        #for comment in comments:
-        #    count=count+1
-        #    print("第"+str(count)+"评论"+comment.string)
-        #    print("")
-        #print(comment)
-        #comment=
-        #print(htmlContent)
-        #file.write(htmlContent.decode('gbk','ignore'))
-        #file.flush()
-        file.close()
-        return comments
+        if htmlContent:
+            file=open('comment.html','w',encoding='gbk')
+            file.write(htmlContent.decode('gbk','ignore'))
+            file.flush()
+            file.close()
+            file=open('comment.html','r',encoding='gbk')
+            soup=BeautifulSoup(file.read(),'html.parser')
+            try:
+                comments=soup.find('div',id='hidcomment').find_all('div',class_='comment-content')
+            except:
+                comments=None
+            file.close()
+            return comments
+        else:
+            return None
     
 
     
